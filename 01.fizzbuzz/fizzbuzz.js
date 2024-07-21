@@ -1,9 +1,8 @@
 #!/usr/bin/env node
 
 function fizzBuzz(max) {
-    let i = 1
-    while (max >= i) {
-        if (i % 15 === 0) {
+    for (let i = 1; i <= max; i++) {
+        if (i % 3 === 0 && i % 5 === 0) {
             console.log('FizzBuzz');
         } else if (i % 3 === 0) {
             console.log('Fizz');
@@ -12,7 +11,6 @@ function fizzBuzz(max) {
         } else {
             console.log(i.toString());
         }
-        i += 1;
     }
 }
 
