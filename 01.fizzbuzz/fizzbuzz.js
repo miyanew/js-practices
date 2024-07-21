@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 
-function FizzBuzz(max) {
+function fizzBuzz(max) {
     let i = 1
     while (max >= i) {
         if (i % 15 === 0) {
@@ -17,4 +17,4 @@ function FizzBuzz(max) {
 }
 
 let maxValue = 20;
-FizzBuzz(maxValue);
+fizzBuzz(maxValue);
