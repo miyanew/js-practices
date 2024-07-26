@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
-function fizzBuzz(printUpperLimit) {
-  for (let i = 1; i <= printUpperLimit; i++) {
+function fizzBuzz(maxCount) {
+  for (let i = 1; i <= maxCount; i++) {
     if (i % 3 === 0 && i % 5 === 0) {
       console.log("FizzBuzz");
     } else if (i % 3 === 0) {
@@ -14,5 +14,5 @@ function fizzBuzz(printUpperLimit) {
   }
 }
 
-const printUpperLimit = 20;
-fizzBuzz(printUpperLimit);
+const maxCount = 20;
+fizzBuzz(maxCount);
