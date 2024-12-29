@@ -6,23 +6,33 @@ import minimist from "minimist";
 const argv = minimist(process.argv.slice(2));
 
 const today = new Date();
-const year = argv.y !== undefined ? parseInt(argv.y) : today.getFullYear();
-const month = argv.m !== undefined ? parseInt(argv.m) : today.getMonth() + 1;
+let year, month;
+
+if (argv.m !== undefined && argv._.length > 0) {
+  month = parseInt(argv.m);
+  year = parseInt(argv._[0]);
+} else if (argv.m !== undefined) {
+  month = parseInt(argv.m);
+  year = today.getFullYear();
+} else {
+  month = today.getMonth() + 1;
+  year = today.getFullYear();
+}
 
 const lastDayOfMonth = new Date(year, month, 0);
 
 // 初週の冒頭の空白埋め
 const firstDayOfMonth = new Date(
-    lastDayOfMonth.getFullYear(),
-    lastDayOfMonth.getMonth(),
-    1,
+  lastDayOfMonth.getFullYear(),
+  lastDayOfMonth.getMonth(),
+  1,
 );
 const firstDayWeekday = firstDayOfMonth.getDay();
 const initialSpaces = Array(firstDayWeekday).fill(" ".repeat(3));
 
 // 日付ごとの空白埋め + 土曜の改行
 const isSaturday = (weekday) => weekday === 6;
-const days = Array.from({length: lastDayOfMonth.getDate()}, (_, i) => i + 1);
+const days = Array.from({ length: lastDayOfMonth.getDate() }, (_, i) => i + 1);
 const formattedDays = days.map((day, index) => {
   const formattedDay = day.toString().padStart(2, " ");
   const currentWeekday = (firstDayWeekday + index) % 7;
