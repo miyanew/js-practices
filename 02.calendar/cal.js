@@ -5,8 +5,7 @@ import minimist from "minimist";
 const isSaturday = (weekday) => weekday === 6;
 
 const main = (args) => {
-  const year = args.year;
-  const month = args.month;
+  const { year, month } = args;
 
   const formattedDays = formatDays(year, month);
   showCalendar(year, month, formattedDays);
@@ -77,19 +76,11 @@ const showCalendar = (year, month, formattedDays) => {
 const parseArgs = () => {
   const argv = minimist(process.argv.slice(2));
   const today = new Date();
-  let year, month;
-  if (argv.m !== undefined && argv._.length > 0) {
-    year = parseInt(argv._[0]);
-    month = parseInt(argv.m);
-  } else if (argv.m !== undefined) {
-    year = today.getFullYear();
-    month = parseInt(argv.m);
-  } else {
-    year = today.getFullYear();
-    month = today.getMonth() + 1;
-  }
 
-  return { year: year, month: month };
+  const year = argv._.length > 0 ? parseInt(argv._[0]) : today.getFullYear();
+  const month = argv.m !== undefined ? parseInt(argv.m) : today.getMonth() + 1;
+
+  return { year, month };
 };
 
 const args = parseArgs();
