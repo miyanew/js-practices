@@ -19,20 +19,18 @@ const formatDays = (year, month) => {
     1,
   );
 
-  const initialSpaces = getInitialSpaces(firstDayOfMonth);
+  const initialSpace = getInitialSpace(firstDayOfMonth);
   const daysWithPaddingAndLinebreaks = addSpacingAndLinebreaks(lastDayOfMonth);
   const daysWithNewline = ensureTrailingNewline(
     daysWithPaddingAndLinebreaks,
     lastDayOfMonth,
   );
 
-  return [...initialSpaces, ...daysWithNewline].join("");
+  return initialSpace + [...daysWithNewline].join("");
 };
 
-const getInitialSpaces = (firstDayOfMonth) => {
-  const firstDayWeekday = firstDayOfMonth.getDay();
-  return Array(firstDayWeekday).fill(" ".repeat(3));
-};
+const getInitialSpace = (firstDayOfMonth) =>
+  " ".repeat(3 * firstDayOfMonth.getDay());
 
 const addSpacingAndLinebreaks = (lastDayOfMonth) => {
   const days = Array.from(
