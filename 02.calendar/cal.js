@@ -2,8 +2,6 @@
 
 import minimist from "minimist";
 
-const isSaturday = (weekday) => weekday === 6;
-
 const main = (args) => {
   const { year, month } = args;
 
@@ -38,24 +36,23 @@ const addSpacingAndLinebreaks = (lastDayOfMonth) => {
     (_, i) => i + 1,
   );
 
-  return days.map((day, index) => {
+  return days.map((day) => {
     const formattedDay = day.toString().padStart(2, " ");
 
-    const currentWeekday = new Date(
+    const currentDay = new Date(
       lastDayOfMonth.getFullYear(),
       lastDayOfMonth.getMonth(),
-      index + 1,
-    ).getDay();
+      day,
+    );
 
-    return isSaturday(currentWeekday)
-      ? `${formattedDay}\n`
-      : `${formattedDay} `;
+    return isSaturday(currentDay) ? `${formattedDay}\n` : `${formattedDay} `;
   });
 };
 
+const isSaturday = (targetDay) => targetDay.getDay() === 6;
+
 const ensureTrailingNewline = (formattedDays, lastDayOfMonth) => {
-  const lastDayWeekday = lastDayOfMonth.getDay();
-  if (!isSaturday(lastDayWeekday)) {
+  if (!isSaturday(lastDayOfMonth)) {
     formattedDays[formattedDays.length - 1] += "\n";
   }
 
