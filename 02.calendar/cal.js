@@ -19,12 +19,8 @@ const formatDays = (year, month) => {
 
   const initialSpace = getInitialSpace(firstDayOfMonth);
   const daysWithPaddingAndLinebreaks = addSpacingAndLinebreaks(lastDayOfMonth);
-  const daysWithNewline = ensureTrailingNewline(
-    daysWithPaddingAndLinebreaks,
-    lastDayOfMonth,
-  );
 
-  return initialSpace + [...daysWithNewline].join("");
+  return initialSpace + [...daysWithPaddingAndLinebreaks].join("");
 };
 
 const getInitialSpace = (firstDayOfMonth) =>
@@ -39,6 +35,10 @@ const addSpacingAndLinebreaks = (lastDayOfMonth) => {
   return days.map((day) => {
     const formattedDay = day.toString().padStart(2, " ");
 
+    if (day === days.length) {
+      return `${formattedDay}\n`;
+    }
+
     const currentDay = new Date(
       lastDayOfMonth.getFullYear(),
       lastDayOfMonth.getMonth(),
@@ -50,14 +50,6 @@ const addSpacingAndLinebreaks = (lastDayOfMonth) => {
 };
 
 const isSaturday = (targetDay) => targetDay.getDay() === 6;
-
-const ensureTrailingNewline = (formattedDays, lastDayOfMonth) => {
-  if (!isSaturday(lastDayOfMonth)) {
-    formattedDays[formattedDays.length - 1] += "\n";
-  }
-
-  return formattedDays;
-};
 
 const showCalendar = (year, month, formattedDays) => {
   const monthName = new Date(year, month, 0).toLocaleString("en-US", {
