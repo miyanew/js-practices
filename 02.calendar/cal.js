@@ -64,7 +64,7 @@ const parseArgs = () => {
   const argv = minimist(process.argv.slice(2));
   const today = new Date();
 
-  const year = argv._.length > 0 ? parseInt(argv._[0]) : today.getFullYear();
+  const year = argv.y !== undefined ? parseInt(argv.y) : today.getFullYear();
   const month = argv.m !== undefined ? parseInt(argv.m) : today.getMonth() + 1;
 
   return { year, month };
