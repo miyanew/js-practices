@@ -18,9 +18,13 @@ const formatDays = (year, month) => {
   );
 
   const initialSpace = getInitialSpace(firstDayOfMonth);
-  const daysWithPaddingAndLinebreaks = addSpacingAndLinebreaks(lastDayOfMonth);
+  const formattedDays = addSpacingAndLinebreaks(lastDayOfMonth);
+  const formattedDaysString = formattedDays.join("");
+  const hasTrailingLinebreak = formattedDaysString.endsWith("\n");
 
-  return initialSpace + [...daysWithPaddingAndLinebreaks].join("");
+  return hasTrailingLinebreak
+    ? `${initialSpace}${formattedDaysString}`
+    : `${initialSpace}${formattedDaysString}\n`;
 };
 
 const getInitialSpace = (firstDayOfMonth) =>
@@ -34,10 +38,6 @@ const addSpacingAndLinebreaks = (lastDayOfMonth) => {
 
   return days.map((day) => {
     const formattedDay = day.toString().padStart(2, " ");
-
-    if (day === days.length) {
-      return `${formattedDay}\n`;
-    }
 
     const currentDay = new Date(
       lastDayOfMonth.getFullYear(),
