@@ -18,13 +18,9 @@ const formatDays = (year, month) => {
   );
 
   const initialSpace = getInitialSpace(firstDayOfMonth);
-  const formattedDays = addSpacingAndLinebreaks(lastDayOfMonth);
-  const formattedDaysString = formattedDays.join("");
-  const hasTrailingLinebreak = formattedDaysString.endsWith("\n");
+  const daysWithPaddingAndLinebreaks = addSpacingAndLinebreaks(lastDayOfMonth);
 
-  return hasTrailingLinebreak
-    ? `${initialSpace}${formattedDaysString}`
-    : `${initialSpace}${formattedDaysString}\n`;
+  return initialSpace + [...daysWithPaddingAndLinebreaks].join("");
 };
 
 const getInitialSpace = (firstDayOfMonth) =>
@@ -36,7 +32,7 @@ const addSpacingAndLinebreaks = (lastDayOfMonth) => {
     (_, i) => i + 1,
   );
 
-  return days.map((day) => {
+  const formattedDays = days.map((day) => {
     const formattedDay = day.toString().padStart(2, " ");
 
     const currentDay = new Date(
@@ -47,6 +43,10 @@ const addSpacingAndLinebreaks = (lastDayOfMonth) => {
 
     return isSaturday(currentDay) ? `${formattedDay}\n` : `${formattedDay} `;
   });
+
+  return formattedDays.at(-1).endsWith("\n")
+    ? formattedDays
+    : [...formattedDays, "\n"];
 };
 
 const isSaturday = (targetDay) => targetDay.getDay() === 6;
