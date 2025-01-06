@@ -18,7 +18,11 @@ const main = async () => {
       await run(db, "INSERT INTO books (title) VALUES (?)", [title]);
       console.log(`ADD TITLE: ${title}`);
     } catch (err) {
-      console.error(`ADD TITLE: ${title}, ${err.message}`);
+      if (err.code === "SQLITE_CONSTRAINT") {
+        console.error(`ADD TITLE: ${title}, ${err.message}`);
+      } else {
+        throw err;
+      }
     }
 
     try {
@@ -29,7 +33,11 @@ const main = async () => {
       );
       console.log(`GET TITLE: ${book.title}, ID: ${book.id}`);
     } catch (err) {
-      console.error(`GET TITLE: ${title}, ${err.message}`);
+      if (err.code === "SQLITE_ERROR") {
+        console.error(`GET TITLE: ${title}, ${err.message}`);
+      } else {
+        throw err;
+      }
     }
   }
 
