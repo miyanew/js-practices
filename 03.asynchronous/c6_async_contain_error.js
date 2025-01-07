@@ -7,10 +7,7 @@ const db = new sqlite3.Database(":memory:");
 const main = async () => {
   await run(
     db,
-    `CREATE TABLE books (
-      id INTEGER PRIMARY KEY AUTOINCREMENT,
-      title TEXT NOT NULL UNIQUE
-    )`,
+    "CREATE TABLE books (id INTEGER PRIMARY KEY AUTOINCREMENT, title TEXT NOT NULL UNIQUE)",
   );
 
   for (const title of bookTitles) {

@@ -4,10 +4,7 @@ const bookTitles = ["booktitle_01", "booktitle_02", "booktitle_03"];
 const db = new sqlite3.Database(":memory:");
 
 db.run(
-  `CREATE TABLE books (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    title TEXT NOT NULL UNIQUE
-  )`,
+  "CREATE TABLE books (id INTEGER PRIMARY KEY AUTOINCREMENT, title TEXT NOT NULL UNIQUE)",
   () => {
     let index = 0;
 
