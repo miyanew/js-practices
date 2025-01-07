@@ -15,7 +15,9 @@ run(
       promise = promise
         .then(() =>
           run(db, "INSERT INTO books (title) VALUES (?)", [title])
-            .then(() => console.log(`ADD TITLE: ${title}`))
+            .then((result) =>
+              console.log(`ADD TITLE: ${title}, ID: ${result.lastID}`),
+            )
             .catch((err) => {
               console.error(`ADD TITLE: ${title}, ${err.message}`);
             }),

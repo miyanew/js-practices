@@ -9,8 +9,8 @@ db.run(
     let index = 0;
 
     bookTitles.forEach((title) => {
-      db.run("INSERT INTO books (title) VALUES (?)", [title], () => {
-        console.log(`ADD TITLE: ${title}`);
+      db.run("INSERT INTO books (title) VALUES (?)", [title], function () {
+        console.log(`ADD TITLE: ${title}, ID: ${this.lastID}`);
 
         db.get("SELECT * FROM books WHERE title = ?", [title], (_, book) => {
           console.log(`GET TITLE: ${book.title}, ID: ${book.id}`);

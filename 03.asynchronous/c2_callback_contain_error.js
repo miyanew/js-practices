@@ -9,11 +9,11 @@ db.run(
     let index = 0;
 
     bookTitles.forEach((title) => {
-      db.run("INSERT INTO books (title) VALUES (?)", [title], (err) => {
+      db.run("INSERT INTO books (title) VALUES (?)", [title], function (err) {
         if (err) {
           console.error(`ADD TITLE: ${title}, ${err.message}`);
         } else {
-          console.log(`ADD TITLE: ${title}`);
+          console.log(`ADD TITLE: ${title}, ID: ${this.lastID}`);
         }
 
         db.get(

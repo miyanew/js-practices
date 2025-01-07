@@ -11,8 +11,10 @@ const main = async () => {
   );
 
   for (const title of bookTitles) {
-    await run(db, "INSERT INTO books (title) VALUES (?)", [title]);
-    console.log(`ADD TITLE: ${title}`);
+    const result = await run(db, "INSERT INTO books (title) VALUES (?)", [
+      title,
+    ]);
+    console.log(`ADD TITLE: ${title}, ID: ${result.lastID}`);
 
     const book = await get(db, "SELECT * FROM books WHERE title = ?", [title]);
     console.log(`GET TITLE: ${book.title}, ID: ${book.id}`);

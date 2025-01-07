@@ -12,8 +12,10 @@ const main = async () => {
 
   for (const title of bookTitles) {
     try {
-      await run(db, "INSERT INTO books (title) VALUES (?)", [title]);
-      console.log(`ADD TITLE: ${title}`);
+      const result = await run(db, "INSERT INTO books (title) VALUES (?)", [
+        title,
+      ]);
+      console.log(`ADD TITLE: ${title}, ID: ${result.lastID}`);
     } catch (err) {
       if (err.code === "SQLITE_CONSTRAINT") {
         console.error(`ADD TITLE: ${title}, ${err.message}`);

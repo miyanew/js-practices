@@ -14,8 +14,10 @@ run(
     bookTitles.forEach((title) => {
       promise = promise
         .then(() =>
-          run(db, "INSERT INTO books (title) VALUES (?)", [title]).then(() =>
-            console.log(`ADD TITLE: ${title}`),
+          run(db, "INSERT INTO books (title) VALUES (?)", [title]).then(
+            (result) => {
+              console.log(`ADD TITLE: ${title}, ID: ${result.lastID}`);
+            },
           ),
         )
         .then(() =>
