@@ -9,7 +9,7 @@ run(
   "CREATE TABLE books (id INTEGER PRIMARY KEY AUTOINCREMENT, title TEXT NOT NULL UNIQUE)",
 )
   .then(() =>
-    run(db, "INSERT INTO books (title) VALUES (?)", [bookTitle])
+    run(db, "INSERT INTO NotExistTable (title) VALUES (?)", [bookTitle])
       .then((result) =>
         console.log(`ADD TITLE: ${bookTitle}, ID: ${result.lastID}`),
       )
