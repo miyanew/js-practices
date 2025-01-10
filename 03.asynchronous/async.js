@@ -1,5 +1,5 @@
 import sqlite3 from "sqlite3";
-import { run, get } from "./sqlite_utils.js";
+import { run, get, close } from "./sqlite_utils.js";
 
 const bookTitles = ["booktitle_01", "booktitle_02", "booktitle_03"];
 const db = new sqlite3.Database(":memory:");
@@ -21,7 +21,7 @@ const main = async () => {
   }
 
   await run(db, "DROP TABLE books");
-  db.close();
+  await close(db);
 };
 
 main();

@@ -21,3 +21,15 @@ export const get = (db, sql, params = []) => {
     });
   });
 };
+
+export const close = (db) => {
+  return new Promise((resolve, reject) => {
+    db.close((err) => {
+      if (err) {
+        reject(err);
+      } else {
+        resolve();
+      }
+    });
+  });
+};
