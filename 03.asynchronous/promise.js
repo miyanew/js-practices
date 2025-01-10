@@ -1,35 +1,24 @@
 import sqlite3 from "sqlite3";
 import { run, get, close } from "./sqlite_utils.js";
 
-const bookTitles = ["booktitle_01", "booktitle_02", "booktitle_03"];
+const bookTitle = "booktitle_01";
 const db = new sqlite3.Database(":memory:");
 
 run(
   db,
   "CREATE TABLE books (id INTEGER PRIMARY KEY AUTOINCREMENT, title TEXT NOT NULL UNIQUE)",
 )
-  .then(() => {
-    let promise = Promise.resolve();
-
-    bookTitles.forEach((title) => {
-      promise = promise
-        .then(() =>
-          run(db, "INSERT INTO books (title) VALUES (?)", [title]).then(
-            (result) => {
-              console.log(`ADD TITLE: ${title}, ID: ${result.lastID}`);
-            },
-          ),
-        )
-        .then(() =>
-          get(db, "SELECT * FROM books WHERE title = ?", [title]).then(
-            (book) => {
-              console.log(`GET TITLE: ${book.title}, ID: ${book.id}`);
-            },
-          ),
-        );
-    });
-
-    return promise;
-  })
+  .then(() =>
+    run(db, "INSERT INTO books (title) VALUES (?)", [bookTitle]).then(
+      (result) => {
+        console.log(`ADD TITLE: ${bookTitle}, ID: ${result.lastID}`);
+      },
+    ),
+  )
+  .then(() =>
+    get(db, "SELECT * FROM books WHERE title = ?", [bookTitle]).then((book) => {
+      console.log(`GET TITLE: ${book.title}, ID: ${book.id}`);
+    }),
+  )
   .then(() => run(db, "DROP TABLE books"))
   .then(() => close(db));
