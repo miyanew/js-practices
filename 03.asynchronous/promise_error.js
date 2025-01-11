@@ -9,22 +9,22 @@ run(
   "CREATE TABLE books (id INTEGER PRIMARY KEY AUTOINCREMENT, title TEXT NOT NULL UNIQUE)",
 )
   .then(() =>
-    run(db, "INSERT INTO NotExistTable (title) VALUES (?)", [bookTitle])
-      .then((result) =>
-        console.log(`ADD TITLE: ${bookTitle}, ID: ${result.lastID}`),
-      )
-      .catch((err) => {
-        console.error(`ADD TITLE: ${bookTitle}, ${err.message}`);
-      }),
+    run(db, "INSERT INTO NotExistTable (title) VALUES (?)", [bookTitle]),
   )
-  .then(() =>
-    get(db, "SELECT * FROM NotExistTable WHERE title = ?", [bookTitle])
-      .then((book) => {
-        console.log(`GET TITLE: ${book.title}, ID: ${book.id}`);
-      })
-      .catch((err) => {
-        console.error(`GET TITLE: ${bookTitle}, ${err.message}`);
-      }),
-  )
+  .then((result) => {
+    console.log(`ADD TITLE: ${bookTitle}, ID: ${result.lastID}`);
+  })
+  .catch((err) => {
+    console.error(`ADD TITLE: ${bookTitle}, ${err.message}`);
+  })
+  .then(() => {
+    return get(db, "SELECT * FROM NotExistTable WHERE title = ?", [bookTitle]);
+  })
+  .then((book) => {
+    console.log(`GET TITLE: ${book.title}, ID: ${book.id}`);
+  })
+  .catch((err) => {
+    console.error(`GET TITLE: ${bookTitle}, ${err.message}`);
+  })
   .then(() => run(db, "DROP TABLE books"))
   .then(() => close(db));

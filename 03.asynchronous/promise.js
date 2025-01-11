@@ -8,17 +8,13 @@ run(
   db,
   "CREATE TABLE books (id INTEGER PRIMARY KEY AUTOINCREMENT, title TEXT NOT NULL UNIQUE)",
 )
-  .then(() =>
-    run(db, "INSERT INTO books (title) VALUES (?)", [bookTitle]).then(
-      (result) => {
-        console.log(`ADD TITLE: ${bookTitle}, ID: ${result.lastID}`);
-      },
-    ),
-  )
-  .then(() =>
-    get(db, "SELECT * FROM books WHERE title = ?", [bookTitle]).then((book) => {
-      console.log(`GET TITLE: ${book.title}, ID: ${book.id}`);
-    }),
-  )
-  .then(() => run(db, "DROP TABLE books"))
+  .then(() => run(db, "INSERT INTO books (title) VALUES (?)", [bookTitle]))
+  .then((result) => {
+    console.log(`ADD TITLE: ${bookTitle}, ID: ${result.lastID}`);
+    return get(db, "SELECT * FROM books WHERE title = ?", [bookTitle]);
+  })
+  .then((book) => {
+    console.log(`GET TITLE: ${book.title}, ID: ${book.id}`);
+    run(db, "DROP TABLE books");
+  })
   .then(() => close(db));
