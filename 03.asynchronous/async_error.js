@@ -4,44 +4,41 @@ import { run, get, close } from "./sqlite_utils.js";
 const bookTitles = ["booktitle_01", "booktitle_01", "booktitle_02"];
 const db = new sqlite3.Database(":memory:");
 
-const main = async () => {
-  await run(
-    db,
-    "CREATE TABLE books (id INTEGER PRIMARY KEY AUTOINCREMENT, title TEXT NOT NULL UNIQUE)",
-  );
+await run(
+  db,
+  "CREATE TABLE books (id INTEGER PRIMARY KEY AUTOINCREMENT, title TEXT NOT NULL UNIQUE)",
+);
 
-  for (const title of bookTitles) {
-    try {
-      const result = await run(db, "INSERT INTO books (title) VALUES (?)", [
-        title,
-      ]);
-      console.log(`ADD TITLE: ${title}, ID: ${result.lastID}`);
-    } catch (err) {
-      if (err.code === "SQLITE_CONSTRAINT") {
-        console.error(`ADD TITLE: ${title}, ${err.message}`);
-      } else {
-        throw err;
-      }
-    }
-
-    try {
-      const book = await get(
-        db,
-        "SELECT * FROM NotExistTable WHERE title = ?",
-        [title],
-      );
-      console.log(`GET TITLE: ${book.title}, ID: ${book.id}`);
-    } catch (err) {
-      if (err.code === "SQLITE_ERROR") {
-        console.error(`GET TITLE: ${title}, ${err.message}`);
-      } else {
-        throw err;
-      }
+for (const title of bookTitles) {
+  try {
+    const result = await run(
+      db,
+      "INSERT INTO books (title) VALUES (?)",
+      [title],
+    );
+    console.log(`ADD TITLE: ${title}, ID: ${result.lastID}`);
+  } catch (err) {
+    if (err.code === "SQLITE_CONSTRAINT") {
+      console.error(`ADD TITLE: ${title}, ${err.message}`);
+    } else {
+      throw err;
     }
   }
 
-  await run(db, "DROP TABLE books");
-  await close(db);
-};
+  try {
+    const book = await get(db, "SELECT * FROM NotExistTable WHERE title = ?", [
+      title,
+    ]);
+    console.log(`GET TITLE: ${book.title}, ID: ${book.id}`);
+  } catch (err) {
+    if (err.code === "SQLITE_ERROR") {
+      console.error(`GET TITLE: ${title}, ${err.message}`);
+    } else {
+      throw err;
+    }
+  }
+}
 
-main();
+await run(db, "DROP TABLE books");
+
+await close(db);
