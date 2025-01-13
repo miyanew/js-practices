@@ -11,14 +11,16 @@ await run(
 
 for (const title of bookTitles) {
   try {
-    const result = await run(
-      db,
-      "INSERT INTO books (title) VALUES (?)",
-      [title],
-    );
+    const result = await run(db, "INSERT INTO books (title) VALUES (?)", [
+      title,
+    ]);
     console.log(`ADD TITLE: ${title}, ID: ${result.lastID}`);
   } catch (err) {
-    if (err.code === "SQLITE_CONSTRAINT") {
+    if (
+      err instanceof Error &&
+      "code" in err &&
+      err.code === "SQLITE_CONSTRAINT"
+    ) {
       console.error(`ADD TITLE: ${title}, ${err.message}`);
     } else {
       throw err;
@@ -26,12 +28,10 @@ for (const title of bookTitles) {
   }
 
   try {
-    const book = await get(db, "SELECT * FROM NotExistTable WHERE title = ?", [
-      title,
-    ]);
+    const book = await get(db, "SELECT * FROM NotExistTable WHERE title = ?", [title]);
     console.log(`GET TITLE: ${book.title}, ID: ${book.id}`);
   } catch (err) {
-    if (err.code === "SQLITE_ERROR") {
+    if (err instanceof Error && "code" in err && err.code === "SQLITE_ERROR") {
       console.error(`GET TITLE: ${title}, ${err.message}`);
     } else {
       throw err;
