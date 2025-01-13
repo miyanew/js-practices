@@ -15,6 +15,6 @@ run(
   })
   .then((book) => {
     console.log(`GET TITLE: ${book.title}, ID: ${book.id}`);
-    run(db, "DROP TABLE books");
+    return run(db, "DROP TABLE books");
   })
   .then(() => close(db));
