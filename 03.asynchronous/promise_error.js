@@ -17,9 +17,9 @@ run(
   .catch((err) => {
     console.error(`ADD TITLE: ${bookTitle}, ${err.message}`);
   })
-  .then(() => {
-    return get(db, "SELECT * FROM NotExistTable WHERE title = ?", [bookTitle]);
-  })
+  .then(() =>
+    get(db, "SELECT * FROM NotExistTable WHERE title = ?", [bookTitle]),
+  )
   .then((book) => {
     console.log(`GET TITLE: ${book.title}, ID: ${book.id}`);
   })
