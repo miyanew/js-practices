@@ -28,7 +28,9 @@ for (const title of bookTitles) {
   }
 
   try {
-    const book = await get(db, "SELECT * FROM NotExistTable WHERE title = ?", [title]);
+    const book = await get(db, "SELECT * FROM NotExistTable WHERE title = ?", [
+      title,
+    ]);
     console.log(`GET TITLE: ${book.title}, ID: ${book.id}`);
   } catch (err) {
     if (err instanceof Error && "code" in err && err.code === "SQLITE_ERROR") {
