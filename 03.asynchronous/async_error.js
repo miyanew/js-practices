@@ -15,7 +15,7 @@ try {
   ]);
   console.log(`ADD TITLE: ${bookTitle}, ID: ${result.lastID}`);
 } catch (err) {
-  if (err instanceof Error && "code" in err && err.code === "SQLITE_ERROR") {
+  if (err instanceof Error && err.code === "SQLITE_ERROR") {
     console.error(`ADD TITLE: ${bookTitle}, ${err.message}`);
   } else {
     throw err;
@@ -28,7 +28,7 @@ try {
   ]);
   console.log(`GET TITLE: ${book.title}, ID: ${book.id}`);
 } catch (err) {
-  if (err instanceof Error && "code" in err && err.code === "SQLITE_ERROR") {
+  if (err instanceof Error && err.code === "SQLITE_ERROR") {
     console.error(`GET TITLE: ${bookTitle}, ${err.message}`);
   } else {
     throw err;
